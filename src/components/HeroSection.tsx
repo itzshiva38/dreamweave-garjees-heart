@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Heart, BookOpen } from "lucide-react";
 import BookReader from "./BookReader";
+import SpecialSongButton from "./SpecialSongButton";
 
 export default function HeroSection() {
   const title = "Gargee's Dreamscape";
@@ -89,6 +90,15 @@ export default function HeroSection() {
             <BookOpen className="h-4 w-4" />
             Read My Book for Gargee 📖
           </button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 3.4, duration: 0.7 }}
+          className="mt-6 flex justify-center"
+        >
+          <SpecialSongButton />
         </motion.div>
       </div>
 
