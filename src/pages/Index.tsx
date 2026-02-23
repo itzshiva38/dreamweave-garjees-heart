@@ -10,24 +10,29 @@ import DreamGames from "../components/DreamGames";
 import Footer from "../components/Footer";
 import LuminaOrb from "../components/LuminaOrb";
 import LoadingScreen from "../components/LoadingScreen";
+import MusicControls from "../components/MusicControls";
+import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 
 const Index = () => (
-  <div className="relative min-h-screen">
-    <LoadingScreen />
-    <StarryBackground />
-    <Navbar />
-    <main className="relative z-10">
-      <HeroSection />
-      <AboutSection />
-      <GallerySection />
-      <DreamJournal />
-      <MemoryLane />
-      <Soundscape />
-      <DreamGames />
-      <Footer />
-    </main>
-    <LuminaOrb />
-  </div>
+  <MusicPlayerProvider>
+    <div className="relative min-h-screen">
+      <LoadingScreen />
+      <StarryBackground />
+      <Navbar />
+      <main className="relative z-10">
+        <HeroSection />
+        <AboutSection />
+        <GallerySection />
+        <DreamJournal />
+        <MemoryLane />
+        <Soundscape />
+        <DreamGames />
+        <Footer />
+      </main>
+      <LuminaOrb />
+      <MusicControls />
+    </div>
+  </MusicPlayerProvider>
 );
 
 export default Index;

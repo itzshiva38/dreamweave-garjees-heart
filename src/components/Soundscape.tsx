@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Play, Pause, Volume2, VolumeX, Music } from "lucide-react";
+import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 
 const tracks = [
   { name: "Ethereal Music", icon: "✨", song: "Finding Her — Ethereal", audioSrc: "/audio/finding-her.mp3" },
@@ -13,26 +14,27 @@ export default function Soundscape() {
   const [active, setActive] = useState<number | null>(null);
   const [muted, setMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const player = useMusicPlayer();
 
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
+        player.stop();
       }
     };
   }, []);
 
   const toggleTrack = (i: number) => {
     if (active === i) {
-      // Stop
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
       setActive(null);
+      player.stop();
     } else {
-      // Switch track
       if (audioRef.current) {
         audioRef.current.pause();
       }
@@ -42,6 +44,11 @@ export default function Soundscape() {
       audio.play().catch(() => {});
       audioRef.current = audio;
       setActive(i);
+      player.play(tracks[i].name, tracks[i].song, audio);
+
+      // Listen for pause/play from controls
+      audio.addEventListener("pause", () => player.pause());
+      audio.addEventListener("play", () => player.play(tracks[i].name, tracks[i].song, audio));
     }
   };
 

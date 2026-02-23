@@ -1,18 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Pause } from "lucide-react";
+import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 
 export default function SpecialSongButton() {
   const [playing, setPlaying] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const firstPlayRef = useRef(true);
+  const player = useMusicPlayer();
 
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
+        player.stop();
       }
     };
   }, []);
@@ -21,14 +24,22 @@ export default function SpecialSongButton() {
     if (playing) {
       audioRef.current?.pause();
       setPlaying(false);
+      player.pause();
     } else {
       if (!audioRef.current) {
         audioRef.current = new Audio("/audio/kaagaz-ki-naav.mp3");
         audioRef.current.loop = true;
-        audioRef.current.addEventListener("ended", () => setPlaying(false));
+        audioRef.current.addEventListener("ended", () => { setPlaying(false); player.stop(); });
+        // Sync with floating controls
+        audioRef.current.addEventListener("pause", () => { setPlaying(false); player.pause(); });
+        audioRef.current.addEventListener("play", () => {
+          setPlaying(true);
+          player.play("Shiva's Special Song 💖", "Kaagaz Ki Naav — Paper Boat", audioRef.current!);
+        });
       }
       audioRef.current.play().catch(() => {});
       setPlaying(true);
+      player.play("Shiva's Special Song 💖", "Kaagaz Ki Naav — Paper Boat", audioRef.current);
 
       if (firstPlayRef.current) {
         firstPlayRef.current = false;
@@ -52,7 +63,6 @@ export default function SpecialSongButton() {
           border: "1px solid hsl(330 80% 72% / 0.3)",
         }}
       >
-        {/* Multi-layer glow rings */}
         <span className="absolute inset-0 rounded-xl opacity-30" style={{
           background: "radial-gradient(ellipse at center, hsl(330 80% 72% / 0.2), hsl(270 70% 65% / 0.1), transparent 70%)",
         }} />
@@ -71,7 +81,6 @@ export default function SpecialSongButton() {
           {playing ? "Playing Shiva's Song 💖" : "Play Shiva's Special Song for Gargee 💖"}
         </span>
 
-        {/* Pulsing heart animation when playing */}
         {playing && (
           <motion.span
             className="absolute inset-0 rounded-xl border border-glow-rose/30"
@@ -81,19 +90,12 @@ export default function SpecialSongButton() {
         )}
       </motion.button>
 
-      {/* Heart particle burst on first play */}
       <AnimatePresence>
         {showParticles && Array.from({ length: 10 }).map((_, i) => (
           <motion.span
             key={i}
             className="absolute text-sm pointer-events-none"
-            initial={{
-              opacity: 1,
-              x: 0,
-              y: 0,
-              left: "50%",
-              top: "50%",
-            }}
+            initial={{ opacity: 1, x: 0, y: 0, left: "50%", top: "50%" }}
             animate={{
               opacity: 0,
               x: Math.cos((i / 10) * Math.PI * 2) * 60,
