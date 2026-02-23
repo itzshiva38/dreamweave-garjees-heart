@@ -43,19 +43,21 @@ export default function LoadingScreen() {
   const [phase, setPhase] = useState<"loading" | "zoomIn" | "fadeOut" | "done">("loading");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const exitStarted = useRef(false);
 
-  // Slower progress (~2.5s total)
+  // Progress (~2.5s total)
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((p) => {
-        if (p >= 100) { clearInterval(interval); return 100; }
-        return p + 1.6;
+        const next = p + 2;
+        if (next >= 100) { clearInterval(interval); return 100; }
+        return next;
       });
-    }, 40);
+    }, 50);
     return () => clearInterval(interval);
   }, []);
 
-  // Phrase cycling every ~500ms for smooth reading
+  // Phrase cycling
   useEffect(() => {
     const interval = setInterval(() => {
       setPhraseIdx((p) => (p + 1) % POETIC_PHRASES.length);
@@ -63,21 +65,30 @@ export default function LoadingScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  // Slower orb bloom
+  // Orb bloom
   useEffect(() => {
     const t = setTimeout(() => setOrbBloomed(true), 800);
     return () => clearTimeout(t);
   }, []);
 
-  // Exit sequence: zoomIn → fadeOut → done
+  // Exit sequence — runs once when progress hits 100
   useEffect(() => {
-    if (progress >= 100 && phase === "loading") {
-      const t1 = setTimeout(() => setPhase("zoomIn"), 200);
-      const t2 = setTimeout(() => setPhase("fadeOut"), 600);
-      const t3 = setTimeout(() => { setPhase("done"); setVisible(false); }, 1300);
-      return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-    }
-  }, [progress, phase]);
+    if (progress < 100 || exitStarted.current) return;
+    exitStarted.current = true;
+    const t1 = setTimeout(() => setPhase("zoomIn"), 200);
+    const t2 = setTimeout(() => setPhase("fadeOut"), 600);
+    const t3 = setTimeout(() => { setPhase("done"); setVisible(false); }, 1300);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [progress]);
+
+  // Hard fallback: force hide after 4s no matter what
+  useEffect(() => {
+    const fallback = setTimeout(() => {
+      setVisible(false);
+      setPhase("done");
+    }, 4000);
+    return () => clearTimeout(fallback);
+  }, []);
 
   // Nebula + stars canvas
   const drawCanvas = useCallback(() => {
