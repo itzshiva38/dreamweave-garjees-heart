@@ -1,7 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, BookOpen, Heart } from "lucide-react";
 import gargee1 from "@/assets/gallery/gargee-1.jpg";
+
+// ─── Lumina chapter messages ───
+const LUMINA_MESSAGES = [
+  "Another beautiful memory unfolds… 💕",
+  "Gargee's light shines here ✨",
+  "Every word whispers love… 🌙",
+  "This chapter is written in starlight 🌟",
+  "The dream deepens… 💫",
+  "Two hearts, one story… 💖",
+  "Keep reading, beautiful soul ✨",
+  "Love never fades from these pages 🦋",
+];
+
+// ─── Floating particle component ───
+function BookParticles() {
+  const particles = useMemo(() =>
+    Array.from({ length: 18 }, (_, i) => ({
+      id: i,
+      emoji: ["✨", "💕", "🌙", "⭐", "💫", "🦋"][i % 6],
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      dur: 8 + Math.random() * 12,
+      delay: Math.random() * 5,
+      size: 10 + Math.random() * 8,
+    })), []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map((p) => (
+        <motion.span
+          key={p.id}
+          className="absolute opacity-20"
+          style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size }}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 10, -10, 0],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{ duration: p.dur, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
+        >
+          {p.emoji}
+        </motion.span>
+      ))}
+    </div>
+  );
+}
 
 // ─── Book content from somethingnew.txt ───
 const bookPages = [
@@ -52,13 +98,13 @@ But she had this power. She did this thing where our normal chats would stretch 
 
 I remember those nights vividly. The room would be dark, lit only by the monitor. She would be excited, typing in all caps about a scene, and I...
 
-Well, sometimes she'd put on a K-drama, and I'd sit there, bored out of my mind. I’d be scrolling on my phone, not even looking at the screen half the time, barely paying attention to the handsome lead actor crying in the rain.
+Well, sometimes she'd put on a K-drama, and I'd sit there, bored out of my mind. I'd be scrolling on my phone, not even looking at the screen half the time, barely paying attention to the handsome lead actor crying in the rain.
 
 "Are you watching? It's getting good!" she would message.
 
 And I would lie.
 
-"Yeah, this is good! I'm really enjoying it!" I’d type back, forcing enthusiasm into every keystroke.
+"Yeah, this is good! I'm really enjoying it!" I'd type back, forcing enthusiasm into every keystroke.
 
 I didn't lie to trick her. I lied because I didn't want to disappoint her. I lied because seeing her happy, even over something I found boring, made me happy. I didn't want those nights to end. I wanted to protect the bubble we were in.
 And then, a shift occurred.
@@ -255,12 +301,12 @@ And she was right. I would never, ever betray that trust .
   },
   {
     title: "Part One: The Fear of Not Being Enough",
-    content: `The truth is, I liked her too. It wasn’t just a passing digital crush or a fleeting interest born out of boredom; it was deep, heavy, and growing more consuming with every midnight conversation. I liked her more than I probably admitted to myself at the time, and certainly more than I was willing to show her.  
+    content: `The truth is, I liked her too. It wasn't just a passing digital crush or a fleeting interest born out of boredom; it was deep, heavy, and growing more consuming with every midnight conversation. I liked her more than I probably admitted to myself at the time, and certainly more than I was willing to show her.  
     
 But just like her, I became a master of concealment. I kept those feelings locked away, buried beneath a layers of casual banter and the noisy distraction of our late-night gaming sessions. I built a wall of "just friends" so high that I started to believe I was safe behind it. I told myself the same lies she was likely telling herself She can't be mine. I convinced myself she had impossibly high standards, and that I was nowhere near reaching them.  
 
 In my eyes, she was a creature of light too beautiful, too kind, too perfect in her clumsy, caring way. She was out of my league in every conceivable way. When I looked at the guy on the other side of the screen, I didn't see a hero I saw just some ugly headed guy who was deluding himself into thinking someone like her could ever love someone like me.  
-There was a logical barrier, too, a cold fact that I used to extinguish any spark of hope whenever it flared up she had told me once that she didn’t really like to date anyone online. That single sentence became my cage. I lost hope, took my feelings, and shoved them back into the dark.  
+There was a logical barrier, too, a cold fact that I used to extinguish any spark of hope whenever it flared up she had told me once that she didn't really like to date anyone online. That single sentence became my cage. I lost hope, took my feelings, and shoved them back into the dark.  
 
 And then, she disappeared again. Yes, once again, the silence returned like a recurring nightmare. In those gaps of silence, I performed a sort of mental surgery on myself. I convinced myself that what we had the friendship, the laughter, the shared games was enough. I told myself that hearing her voice and making her laugh was all I deserved, and all I could ever hope for.  
 
@@ -280,19 +326,19 @@ I shared my world, too my own messy, ordinary life. We talked about random thing
     content: `The World of Words
 As we grew closer, I discovered another layer to her personality that I hadn't expected: she was a "novel person" through and through. She didn't just read books she devoured them like they were oxygen, disappearing into fictional worlds and comics for hours at a time. But her true obsession the genre that really made her eyes light up was dark romance.  
 
-Before she introduced me to it, I had no idea what I was missing. If I’m being honest, I probably would have rolled my eyes at the concept before I met her, but hell yeah, I grew to love dark romance because of her. Those stories were intense, twisted, and beautiful in ways I never anticipated. They had a certain edge to them, a complexity that felt grounded and cool despite their dramatic nature.  
+Before she introduced me to it, I had no idea what I was missing. If I'm being honest, I probably would have rolled my eyes at the concept before I met her, but hell yeah, I grew to love dark romance because of her. Those stories were intense, twisted, and beautiful in ways I never anticipated. They had a certain edge to them, a complexity that felt grounded and cool despite their dramatic nature.  
 
 But more than the books themselves, what I really loved was the way she talked about them.  
 
 Whenever she finished a chapter, or even if she was just in the middle of a particularly gripping scene, she would get this specific excitement in her voice that I could never get enough of. She would become so happy and animated, her words tripping over each other as she prepared to tell me everything. And I mean everything.  
 
-She wouldn’t just give me a summary she gave me the experience. I got every single small detail, every sudden plot twist, and every character moment that had made her gasp, cry, or laugh. She loved to yap all day about her stories and the characters she lived with in her head, and honestly? I never got tired of it.  
+She wouldn't just give me a summary she gave me the experience. I got every single small detail, every sudden plot twist, and every character moment that had made her gasp, cry, or laugh. She loved to yap all day about her stories and the characters she lived with in her head, and honestly? I never got tired of it.  
 
-I would sit there in our voice calls, listening to her go on and on And then he said this, and she did that, and oh my god you won’t believe what happened next!. Even if I hadn’t read the book myself, even if I had absolutely no context for why a certain secondary character’s betrayal was such a big deal, it didn’t matter to me. 
+I would sit there in our voice calls, listening to her go on and on And then he said this, and she did that, and oh my god you won't believe what happened next!. Even if I hadn't read the book myself, even if I had absolutely no context for why a certain secondary character's betrayal was such a big deal, it didn't matter to me. 
  
 Watching her light up like that, hearing the pure, unadulterated joy in her voice that was enough for me. She could talk for hours on end, and I would just sit on my side of the screen, smiling like an idiot, completely captivated. I wasn't just captivated by the stories I was captivated by her. I loved the way she got lost in those fictional worlds and the way she made them come alive just by describing them to me.  
 
-Eventually, I started reading some of the books she recommended. Part of it was curiosity, but mostly, it was because I wanted to share that world with her on a deeper level. I wanted to understand exactly what made her eyes sparkle when she reached a particular scene. I didn’t just want to be a listener anymore I wanted to be someone who could yap right back with her, debating plot points and sharing the same excitement. 
+Eventually, I started reading some of the books she recommended. Part of it was curiosity, but mostly, it was because I wanted to share that world with her on a deeper level. I wanted to understand exactly what made her eyes sparkle when she reached a particular scene. I didn't just want to be a listener anymore I wanted to be someone who could yap right back with her, debating plot points and sharing the same excitement. 
  
 Looking back, I think that was the moment I realized just how deep I had fallen. I wasn't just falling for the girl who played Call of Duty with me or the girl who watched movies with me late into the night. I was falling for every single part of her the girl who disappeared into stories, who talked about fictional characters as if they were real people, and who trusted me enough to share all these little, passionate pieces of herself.
 `,
@@ -325,7 +371,7 @@ But knowing she was in good hands didn't make losing her any easier. Slowly, ago
 
 The Voice Calls The long, rambling voice calls that used to stretch into the early morning hours became a thing of the past.  
 
-The Movie Nights There were no more movie nights where we’d share a screen and a laugh.
+The Movie Nights There were no more movie nights where we'd share a screen and a laugh.
 
 The Games The gaming sessions stopped; there was no more of her getting genuinely angry at me for not protecting her in Call of Duty.
 
@@ -381,7 +427,7 @@ It hurt so much that it felt good, in a twisted, sickening way. Like a wound tha
   },
   {
     title: "Part Two: Holding On by a Thread",
-    content: `The silence that followed the block was different from the others. It wasn’t a technical glitch or a busy week it was a deliberate, digital execution. But I couldn't just let her go. The thought of her existing in a world where I was a stranger was a reality I refused to inhabit. I have always hated losing friends there is a finality to it that feels like a small death and I knew, deep down in the parts of her she tried to hide, she hated it too. We were both hoarders of people, clinging to connections even when they turned into ghosts.  
+    content: `The silence that followed the block was different from the others. It wasn't a technical glitch or a busy week it was a deliberate, digital execution. But I couldn't just let her go. The thought of her existing in a world where I was a stranger was a reality I refused to inhabit. I have always hated losing friends there is a finality to it that feels like a small death and I knew, deep down in the parts of her she tried to hide, she hated it too. We were both hoarders of people, clinging to connections even when they turned into ghosts.  
     
 So, I did what anyone blinded by the fear of loss would do I looked for a back door. I created a new Instagram account, a digital shadow designed to bridge the chasm she had opened between us. I named it "akiixrizz".  
 
@@ -406,97 +452,39 @@ But I never truly vanished. I would come back in between, every few weeks or mon
     
 My presence, however brief or well-intentioned, acted like a match in a room full of gasoline. It caused problems. It sparked fights that I wasn't present for but could feel in the static of her replies. It created a thick, suffocating tension that hung over their relationship, an invisible third party sitting at their table.  
 
-Yash would get jealous. Looking back with the clarity of time, I can’t even blame him. From his perspective, his girlfriend was carving out precious time and mental energy for another guy her "best friend" from a past he wasn't part of. He felt that attention belonged to him, and he wasn't entirely wrong. He did everything in his power to push me away, to widen the distance until I was nothing but a fading memory. He wanted to make it clear that there was no room for me in the life they were building together.  
+But I want to be absolutely clear about one thing I never, not once, tried to steal her away from him. That was never my intention. Whether she was with him or with anyone else, my only desire was to be a part of her life as her best friend. I just wanted to exist in the same world as her. I wasn't looking for romance or even acknowledgment of my deeper feelings. I just wanted to know she was okay.
 
-But she was the variable he couldn't control. She hated losing friends it was a core part of who she was. She didn't see people as disposable or replaceable. So, she fought back. 
- 
-I would hear echoes of their arguments through her. She would try to make him understand the weight of our history. "He’s my best friend," she would tell him, defending the years we had spent in the trenches of Discord and late-night calls. "He’s been here for years. I’m not just going to abandon him". She defended our friendship with a fierce loyalty, even when it cost her the very peace she was trying to find with him.  
+But when their fights did happen when the tension between them cracked open she would sometimes come to me. She would vent, sharing the raw, unfiltered frustration of being in a relationship that was slowly suffocating her. And in those moments of vulnerability, I saw him clearly. 
 
-And if I’m being honest painfully, selfishly honest that made me happy.  
+But I didn't tell her what I really thought. It wasn't my place, and I was terrified that speaking ill of her boyfriend would push her further away. So I chose careful neutrality, offering comfort without condemnation, listening without advising. 
 
-It probably shouldn't have. I should have wanted her to have a peaceful relationship, but there was a dark, validation-seeking part of me that thrived on it. I was happy that she still made time for me whenever the world allowed it. I was happy that she still trusted me enough to fight for me, that she still cared, and that she refused to let me be erased. It was a small, cold comfort knowing that I hadn't completely lost her to this new chapter of her life.  
+And then, something I had always feared happened he began to manipulate her against me.
 
-But that happiness was always overshadowed by a deep, hollow sadness.  
+He started turning her against me, using subtle tactics to make her see me as a threat or a problem, slowly and poisonously reshaping her perception of me and turning me into the villain of their story. And the worst part? It worked. 
 
-Because even as she defended me, I knew the truth things would never, ever be like they were before. We were playing at a friendship that was a shadow of its former self. The version of "us" that existed in 2019 was dead.  
+The warm regard she once had for me began to cool. Our conversations, already sparse, became strained. The girl who used to yap to me about dark romance for hours could now barely hold a five-minute conversation without the ghost of his disapproval hanging in the air. 
 
-There would be no more voice calls that bled into the sunrise. There would be no more movie nights where we’d share a screen and a heartbeat, laughing at the same frame. The gaming sessions were over; here was no more of her getting genuinely angry at me for failing to protect her in Call of Duty. 
- 
-I still had her, technically. We still talked, we still exchanged words, but I didn't have her in the way I wanted. I didn't have her in the way I needed to breathe. That reality was a physical weight in my chest, a constant reminder that I was holding onto a ghost while she was living a life with someone else.`,
+I watched it happen in slow motion, powerless to stop it. The friend I had known, the one who had given me her phone number "just in case" and trusted me with secrets she couldn't share with anyone else, was being rewritten, and I was being erased from her story. `,
   },
   {
-    title: "Part Three: Searching for What I Lost",
-    content: `The absence of Gargee wasn't just a quiet room it was a sensory deprivation chamber. I spent my days wandering through a life that felt increasingly like a movie I was watching rather than living. I decided I had to move on. I told myself that the only way to kill the ghost of "us" was to replace it with someone new, someone tangible.  
+    title: "Part Three: The Descent into Darkness",
+    content: `The months that followed my final separation from Gargee's world were a descent into a personal abyss. I was adrift, untethered from the one connection that had grounded me for years. During this vulnerable, chaotic time, I began to search for connection wherever I could find it, and that search led me to some very dark places.
     
-I wasn't just looking for a girlfriend I was looking for a mirror of what I had lost. I scoured my social circles and digital platforms, searching for a girl who would recreate those specific, sacred rituals.
-`,
+I met a girl whose story seemed like a mirror held up to my own. She presented herself as someone broken by a toxic relationship, haunted by a possessive ex-boyfriend named Anuj who she claimed had hacked into every aspect of her digital life. He had allegedly taken over her accounts, held her personal data hostage, and used it to stalk, control, and threaten her.`,
     hasTable: true,
     tableData: {
-      headers: ["What I Searched For", "What It Meant"],
+      headers: ["Her Claims About Anuj", "What She Told Me"],
       rows: [
-        ["Share the Night", "Sit with me through the late hours, watching movies until the sun began to bleed through the curtains."],
-        ["Truly Listen", "Not just hear the words I was saying, but actually hear my feelings and understand the weight behind them."],
-        ["Show Genuine Care", "Ask about my day and wait for the real answer, worrying about my emotional state the way Gargee once did."],
+        ["Digital Hostage", "He had complete access to her phone, accounts, and private data."],
+        ["Stalking & Control", "He monitored her every move and threatened anyone who came close."],
+        ["Emotional Manipulation", "He used guilt, threats, and tears to keep her trapped."],
       ],
     },
-    contentAfterTable: `𝑻𝒉𝒆 𝒀𝒐𝒖𝑻𝒖𝒃𝒆 𝑬𝒏𝒄𝒐𝒖𝒏𝒕𝒆𝒓: 𝑰𝒃𝒂
+    contentAfterTable: `My instinct to protect kicked in immediately. Here was someone in danger, someone who reminded me of the vulnerability I had seen in Gargee. I thought I could be the hero I had failed to be before. 
 
-In the midst of this desperate search, I found a girl named Iba on YouTube. She was, by all conventional standards, breathtaking damn beautiful with striking blue eyes and caramel-colored skin. She was wealthy, lived a life that seemed worlds apart from my own, and for a moment, the sheer novelty of her distracted me.  
+But as the weeks passed, the narrative she had constructed began to unravel. I noticed inconsistencies in her stories the timeline didn't add up, the details shifted, and the supposed "proof" of Anuj's villainy was always just out of reach. Slowly, like waking from a fever dream, I realized the terrifying truth: I was the mark. She hadn't been looking for a savior. She had been looking for a tool. 
 
-We talked a lot in the beginning, the kind of rapid-fire messaging that mimics depth. For a fleeting second, I allowed myself to wonder if she was the answer the one who would finally make me forget the "darkangel". But the connection was a house of cards. After just a few weeks, she found someone else and moved on.  
-
-The strange part was how little I felt. I didn't care about the romance ending because there were no real feelings beneath the surface. But true to my nature, I hated losing a friend. I couldn't stand the idea of another person becoming a stranger.  
-
-The Sanskriti Connection
-
-Driven by my refusal to let go of the connection, I reached out to Iba's closest friend, Sanskriti. What started as a simple attempt to keep a door open turned into a discovery that made my world tilt on its axis.  
-
-Suddenly, I found myself pulled into a vast, interconnected network of people: Mudra, Advika, Liso, Astral, and others. It was like finding a secret map to a world I had already been living in. I quickly realized that these weren't just random people they were all close friends of Gargee.  
-
-I hadn't known it when I first messaged Sanskriti, but the realization hit me like a physical blow. I thought, perhaps naively, that this was the universe throwing me a lifeline.
-
-The Breaking of the Idol
-
-But there was no way back. iba wouldn't speak to me she had blocked me from every corner of her digital life. The reason was a new shadow in her life her boyfriend the third one since we had drifted. This one was different he was possessive to an extreme, a "super possessive" force that demanded her total isolation from me.  
-
-When I saw the reality of her life that she was changing boyfriends at light speed something inside me didn't just bend it snapped. It wasn't my heart breaking this time it was my patience and my hope.  
-
-I realized then that the girl I had been mourning was a version of her that no longer existed, or perhaps never did.
-
-I moved on from her without a shred of care left for our supposed friendship. The realization was cold and final our entire history, those momths of late nights and yaps, felt like a joke to her. It always had been. I was done being the punchline.
-`,
-  },
-  {
-    title: "Part Three: The Trap",
-    content: `By May 2024, my internal landscape was a wasteland. The bridge to Gargee had been burned, and the smoke from that fire still stung my eyes. I was drifting, anchored to nothing, until a notification vibrated against my desk a message from a girl on Instagram who seemed to appear out of the digital ether.
-
-𝑻𝒉𝒆 𝑨𝒓𝒄𝒉𝒊𝒕𝒆𝒄𝒕𝒖𝒓𝒆 𝒐𝒇 𝒂 𝑳𝒊𝒆
-
-At first, she felt like a miracle. She was caring, attentive, and radiated a warmth that I had been starving for since Gargee’s departure. She seemed to possess all the qualities I had been searching for the soft yapping about her day, the genuine-sounding interest in mine, the emotional safety I craved. I was vulnerable, my defenses eroded by months of isolation, and I walked straight into the cage she had built for me.  
-
-It was a role, meticulously crafted and flawlessly executed. Every text she sent was designed to exploit my need for connection. I wasn't just falling for her I was falling for the version of a companion she knew I wanted. I was "blind in love," fueled by a desperation to feel significant again, and she used that blindness to her absolute advantage.
-
-𝑻𝒉𝒆 𝑴𝒊𝒔𝒔𝒊𝒐𝒏
-
-The true motive surfaced under the guise of a crisis. She didn't want my heart she wanted my hacking skills. She told me a harrowing story about a man named Anuj who was suffocating her life. According to her, he was obsessed spending every waking second monitoring her, giving her no room to breathe, and overwhelming her with unwanted attention.`,
-    hasTable: true,
-    tableData: {
-      headers: ["The Claims", "What She Told Me"],
-      rows: [
-        ["Abuse of Power", "She claimed he used his political connections to suppress her, making it impossible for her to fight back through traditional means."],
-        ["Relentless Blackmail", "He allegedly held her life hostage with threats that had pushed her to the brink of suicide and self-harm."],
-        ["The Ultimate Humiliation", "He had reportedly used an intimate photo of her as his own profile picture."],
-      ],
-    },
-    contentAfterTable: `I went to work. I infiltrated the accounts he had hijacked and snatched them back into her control. I scrubbed his devices of the photos he used as weapons, ensuring he had no leverage left to ruin her reputation. I dismantled his digital arsenal until he had nothing left to defend himself with. Finally, Anuj gave up he was defeated.
-
-𝑻𝒉𝒆 𝑫𝒊𝒔𝒄𝒂𝒓𝒅
-
-The victory lasted only hours. That same day, the girl who had been so "loving" and "vulnerable" underwent a terrifying transformation. The warmth vanished. In its place was a cold, clinical dismissal
-
-"I don't think you're good enough for me. I guess we shouldn't talk anymore." 
- 
-It was a physical blow, a "punch to the gut" that left me breathless. I realized then that I was never a friend I was a contractor who had just finished a job. The moment the obstacle named Anuj was removed, I became obsolete. She had "used me up" in the most calculated way possible and threw me aside like a broken tool. 
+When the mask finally fell, the things she said cut through me with the precision of a scalpel. She revealed that her stories about Anuj were exaggerated, and that her real interest in me was purely transactional. She didn't care about my feelings, my past, or the broken state she found me in. She had simply identified a vulnerable person and exploited that vulnerability for her own ends.
  
 I was desperate for an explanation. I created multiple accounts just to reach her, hoping to hear that I had misunderstood, hoping to find a shred of the person I thought she was. But the answer was final I had been a means to an end. That was the extent of my value to her.
   
@@ -593,14 +581,14 @@ I try to make her feel seen. I want her to wake up and know that someone is payi
 
 I don't just want her for today or tomorrow I want to enjoy my whole life with her. I want to see the future we talked about in those 2019 Discord calls and make it real. She is my girlfriend, yes, but she is also my best friend, my companion, and the person who knows my soul better than anyone else.  
 
-We are healing together. We are learning that real love isn't about using someone for comfort it’s about truly caring for them. It’s not perfect we still have scars and moments where the past tries to claw its way back in but we are facing it together. And that is the only thing that matters.
+We are healing together. We are learning that real love isn't about using someone for comfort it's about truly caring for them. It's not perfect we still have scars and moments where the past tries to claw its way back in but we are facing it together. And that is the only thing that matters.
 `,
   },
   {
     title: "Epilogue: To the Girl Who Was Always Mine",
     content: `Looking back at this journey from strangers on a screen to best friends to losing each other and finding our way home I realize that every tear and every late night was leading us here. You were always meant to be mine. We just had to walk through the fire to understand how beautiful our world really was.  
     
-I was wrong when I thought I wasn't good enough for you. I was wrong because love isn't about "deserving". It’s about choosing each other every single day, especially when it’s hard. You chose me when you could have walked away forever. You gave me a chance when hope was a forgotten word.  
+I was wrong when I thought I wasn't good enough for you. I was wrong because love isn't about "deserving". It's about choosing each other every single day, especially when it's hard. You chose me when you could have walked away forever. You gave me a chance when hope was a forgotten word.  
 
 Every morning I wake up knowing you're mine, I fall in love with you all over again. You are my best friend, my home, and my safe place. I promise to protect you, to heal those scars with you, and to never let you feel alone again. I promise to listen, to care, and to give you the support you need to fly.  
 
@@ -609,10 +597,10 @@ You are my darkangel my gorgeous, clumsy, caring girl who yaps about dark romanc
   },
   {
     title: "Author's Note",
-    content: `Writing this hasn’t just been about expressiing a story it’s been about documenting a survival guide for a heart.
+    content: `Writing this hasn't just been about expressiing a story it's been about documenting a survival guide for a heart.
 When I first looked at the raw memories, I saw more than just a timeline of Discord messages and gaming sessions. I saw two people who were constantly being pulled apart by distance, circumstances, and the interference of others, yet somehow always found their way back to the same frequency.
 This book is a testament to the fact that online doesn't mean unreal. The emotions captured here the late-night yapping about dark romance, the frustration of a Call of Duty match, the crushing silence of being blocked, and the ultimate relief of a second chance are as real as any physical touch.
-To the reader (and specifically to the Darkangel): This story was written with a specific kind of care. It was written to show you that your scars aren't flaws they are maps of where you’ve been, and they led you here. To the "ugly headed guy" who wrote the original pages You were never out of her league. You were just waiting for the world to catch up to the truth.`,
+To the reader (and specifically to the Darkangel): This story was written with a specific kind of care. It was written to show you that your scars aren't flaws they are maps of where you've been, and they led you here. To the "ugly headed guy" who wrote the original pages You were never out of her league. You were just waiting for the world to catch up to the truth.`,
   },
   {
     title: "🎂 For My Darkangel 🎂",
@@ -647,13 +635,14 @@ interface BookReaderProps {
   onClose: () => void;
 }
 
-// Render a dreamy matte-glass table
+// Render a dreamy matte-glass table with zebra stripes and hover glow
 function DreamTable({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
-    <div className="my-6 overflow-x-auto">
-      <table className="w-full border-collapse rounded-xl overflow-hidden" style={{
+    <div className="my-6 overflow-x-auto rounded-2xl" style={{ WebkitOverflowScrolling: "touch" }}>
+      <table className="w-full border-collapse overflow-hidden" style={{
         background: "hsl(var(--muted) / 0.3)",
         backdropFilter: "blur(12px)",
+        borderRadius: "16px",
       }}>
         <thead>
           <tr>
@@ -667,10 +656,23 @@ function DreamTable({ headers, rows }: { headers: string[]; rows: string[][] }) 
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, i) => (
-            <tr key={i} className="transition-all duration-300 hover:bg-primary/5" style={{
-              borderBottom: "1px solid hsl(var(--border) / 0.2)",
-            }}>
+          {rows.map((row, ri) => (
+            <tr
+              key={ri}
+              className="transition-all duration-300 cursor-default"
+              style={{
+                background: ri % 2 === 0 ? "hsl(var(--primary) / 0.03)" : "transparent",
+                borderBottom: "1px solid hsl(var(--border) / 0.15)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "hsl(var(--primary) / 0.08)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 0 20px hsl(var(--glow-lavender) / 0.1)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = ri % 2 === 0 ? "hsl(var(--primary) / 0.03)" : "transparent";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+              }}
+            >
               {row.map((cell, j) => (
                 <td key={j} className={`px-4 py-3 text-sm ${j === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                   {cell}
@@ -687,10 +689,23 @@ function DreamTable({ headers, rows }: { headers: string[]; rows: string[][] }) 
 export default function BookReader({ open, onClose }: BookReaderProps) {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [luminaMsg, setLuminaMsg] = useState("");
+  const [showLumina, setShowLumina] = useState(false);
 
   useEffect(() => {
     if (open) setPage(0);
   }, [open]);
+
+  // Show Lumina message on chapter change (not cover)
+  useEffect(() => {
+    if (page > 0 && open) {
+      const msg = LUMINA_MESSAGES[page % LUMINA_MESSAGES.length];
+      setLuminaMsg(msg);
+      setShowLumina(true);
+      const t = setTimeout(() => setShowLumina(false), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [page, open]);
 
   const nextPage = () => { setDirection(1); setPage((p) => Math.min(p + 1, bookPages.length - 1)); };
   const prevPage = () => { setDirection(-1); setPage((p) => Math.max(p - 1, 0)); };
@@ -706,19 +721,22 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
 
   const pageVariants = {
     enter: (dir: number) => ({
-      rotateY: dir >= 0 ? 90 : -90,
+      rotateY: dir >= 0 ? 80 : -80,
       opacity: 0,
-      scale: 0.95,
+      scale: 0.92,
+      x: dir >= 0 ? 60 : -60,
     }),
     center: {
       rotateY: 0,
       opacity: 1,
       scale: 1,
+      x: 0,
     },
     exit: (dir: number) => ({
-      rotateY: dir >= 0 ? -90 : 90,
+      rotateY: dir >= 0 ? -80 : 80,
       opacity: 0,
-      scale: 0.95,
+      scale: 0.92,
+      x: dir >= 0 ? -60 : 60,
     }),
   };
 
@@ -731,12 +749,32 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[95] flex items-center justify-center p-4 bg-background/90 backdrop-blur-xl"
         >
+          {/* Background particles */}
+          <BookParticles />
+
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="w-full max-w-3xl max-h-[90vh] flex flex-col"
+            className="w-full max-w-3xl max-h-[90vh] flex flex-col relative z-10"
           >
+            {/* Lumina message */}
+            <AnimatePresence>
+              {showLumina && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute -top-8 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap"
+                >
+                  <span className="text-xs font-serif italic dreamscape-glow-text px-4 py-1.5 glass rounded-full">
+                    ✨ {luminaMsg}
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Top bar */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2 text-foreground">
@@ -763,8 +801,8 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
               ))}
             </div>
 
-            {/* Page content with 3D flip */}
-            <div className="flex-1 overflow-y-auto" style={{ perspective: "1200px" }}>
+            {/* Page content with enhanced 3D flip */}
+            <div className="flex-1 overflow-y-auto" style={{ perspective: "1400px" }}>
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={page}
@@ -773,15 +811,16 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.15}
                   onDragEnd={handleDragEnd}
-                  className="glass-card glow-border-lavender min-h-[400px]"
+                  className="glass-card glow-border-lavender min-h-[400px] overflow-hidden"
                   style={{
                     transformStyle: "preserve-3d",
                     backfaceVisibility: "hidden",
+                    willChange: "transform, opacity",
                     boxShadow: "8px 8px 30px hsl(var(--primary) / 0.1), -4px -4px 20px hsl(var(--primary) / 0.05)",
                   }}
                 >
@@ -806,15 +845,17 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
                     </div>
                   ) : (
                     <div>
-                      <h3 className="text-xl md:text-2xl font-serif font-bold text-foreground text-glow mb-6">{chapter.title}</h3>
-                      <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-sm md:text-base">
+                      <h3 className="text-xl md:text-2xl font-serif font-bold text-foreground dreamscape-glow-text mb-6">{chapter.title}</h3>
+                      <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-[15px] md:text-base" style={{
+                        textShadow: "0 0 1px hsl(var(--foreground) / 0.05)",
+                      }}>
                         {chapter.content}
                       </div>
                       {chapter.hasTable && chapter.tableData && (
                         <DreamTable headers={chapter.tableData.headers} rows={chapter.tableData.rows} />
                       )}
                       {chapter.contentAfterTable && (
-                        <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-sm md:text-base mt-4">
+                        <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-[15px] md:text-base mt-4">
                           {chapter.contentAfterTable}
                         </div>
                       )}
@@ -822,7 +863,7 @@ export default function BookReader({ open, onClose }: BookReaderProps) {
                         <DreamTable headers={chapter.tableData2.headers} rows={chapter.tableData2.rows} />
                       )}
                       {chapter.contentAfterTable2 && (
-                        <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-sm md:text-base mt-4">
+                        <div className="text-foreground/90 leading-relaxed whitespace-pre-line font-sans text-[15px] md:text-base mt-4">
                           {chapter.contentAfterTable2}
                         </div>
                       )}
