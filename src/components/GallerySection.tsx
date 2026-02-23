@@ -11,7 +11,7 @@ import gargee5 from "@/assets/gallery/gargee-5.jpg";
 const gargeePhotos = [
   { src: gargee1, title: "Fairy Light Dreams", caption: "Glowing in emerald elegance ✨", h: "h-80" },
   { src: gargee2, title: "Golden Hour", caption: "Warmth that melts the heart 🌅", h: "h-72" },
-  { src: gargee3, title: "Carnival Magic", caption: "Pink skies and endless joy 🎀", h: "h-80" },
+  { src: gargee3, title: "Carnival Magic", caption: "Endless joy with friends 🎀", h: "h-80" },
   { src: gargee4, title: "Sunset Silhouettes", caption: "Cherished moments at the pier 🌊", h: "h-72" },
   { src: gargee5, title: "Together Forever", caption: "Love captured in a smile 💕", h: "h-64" },
 ];
