@@ -9,6 +9,7 @@ const navItems = [
   { label: "Gallery", href: "#gallery" },
   { label: "Journal", href: "#journal" },
   { label: "Memories", href: "#memories" },
+  { label: "100 Reasons 💕", href: "#reasons" },
   { label: "Sounds", href: "#soundscape" },
   { label: "Games", href: "#games" },
 ];

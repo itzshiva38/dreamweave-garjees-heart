@@ -77,7 +77,7 @@ export default function LuminaOrb() {
 
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full glass glow-border-lavender flex items-center justify-center animate-pulse-glow"
+        className="fixed bottom-6 right-6 z-[60] w-14 h-14 rounded-full glass glow-border-lavender flex items-center justify-center animate-pulse-glow"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Open Lumina chat"

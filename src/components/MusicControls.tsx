@@ -69,7 +69,8 @@ export default function MusicControls() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] w-[92vw] max-w-md"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[40] w-[92vw] max-w-md mr-20"
+          style={{ transform: "translateX(calc(-50% - 40px))" }}
           onMouseEnter={resetIdle}
           onClick={resetIdle}
         >

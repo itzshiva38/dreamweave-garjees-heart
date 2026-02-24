@@ -5,6 +5,8 @@ import AboutSection from "../components/AboutSection";
 import GallerySection from "../components/GallerySection";
 import DreamJournal from "../components/DreamJournal";
 import MemoryLane from "../components/MemoryLane";
+import HundredReasons from "../components/HundredReasons";
+import FutureDreams from "../components/FutureDreams";
 import Soundscape from "../components/Soundscape";
 import DreamGames from "../components/DreamGames";
 import Footer from "../components/Footer";
@@ -25,6 +27,8 @@ const Index = () => (
         <GallerySection />
         <DreamJournal />
         <MemoryLane />
+        <HundredReasons />
+        <FutureDreams />
         <Soundscape />
         <DreamGames />
         <Footer />
