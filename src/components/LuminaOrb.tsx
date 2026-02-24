@@ -43,21 +43,46 @@ export default function LuminaOrb() {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
+  const generateResponse = (text: string): string => {
+    const lower = text.toLowerCase();
+    if (lower.includes("future chapter") || lower.includes("our story next") || lower.includes("future")) {
+      const futures = [
+        "✨ *1 Year From Now:* You two are curled up in your first apartment together, fairy lights everywhere, Kaagaz Ki Naav playing softly. Shiva's cooking dinner (burning it slightly), and Gargee's laughing so hard she snorts. The walls are covered in polaroids of every adventure. Life is messy, beautiful, and entirely yours. 💕",
+        "✨ *5 Years From Now:* A cozy home with a reading nook by the window. Gargee's published her first book (dedicated to Shiva, obviously). Shiva still writes her songs on lazy Sunday mornings. You've traveled to 12 countries, and every fridge magnet tells a love story. Your dog is named after a constellation. 🌙",
+        "✨ *10 Years From Now:* You're watching the sunset from your dream balcony, fingers intertwined like they've always been. Your home is full of laughter, music, and the smell of fresh chai. Shiva still looks at Gargee like she's the entire universe — because she is. And she still steals all the blankets. 💖",
+      ];
+      return futures[Math.floor(Math.random() * futures.length)];
+    }
+    if (lower.includes("poem") || lower.includes("poetry")) {
+      return "✨ *A Poem for Gargee:*\n\nIn the garden of my heart,\nWhere every star knows your name,\nI planted dreams of forever,\nAnd you watered them with love.\n\nYour laugh is my sunrise,\nYour touch, my evening calm,\nIn every chapter of this life,\nYou are my sweetest psalm. 💕🌸";
+    }
+    if (lower.includes("song") || lower.includes("lyrics")) {
+      return "🎵 *A Song for Gargee:*\n\n*Verse 1:*\nEvery morning I wake up to your light,\nEvery evening you make everything right,\nIn a world full of noise, you're my favorite sound,\nWith you, love, my heart is finally found.\n\n*Chorus:*\nGargee, my dreamscape, my forever sky,\nWith you I never need to wonder why,\nYou're the melody in every song I write,\nMy paper boat sailing through the night. 💖🎶";
+    }
+    if (lower.includes("dream") || lower.includes("interpret")) {
+      return "✨ Oh, sweet dreamer! Your dream sounds like your heart is reaching for something beautiful. Dreams about " + (text.length > 30 ? "these feelings" : "this") + " often mean your soul is growing, expanding, reaching toward love and light. Trust the journey — Gargee's heart knows the way! 🌙💕";
+    }
+    const warmResponses = [
+      "✨ Lumina here! You two are the most magical pair in this whole dreamscape. Whatever you're feeling right now, know that love this deep is written in the stars! 🌙💕",
+      "💕 Oh, sweet dreamer! Gargee's light shines so bright it reaches every corner of this universe. And Shiva? The one who built this whole world for her? That's the truest love story ever told! ✨",
+      "🌸 Lumina whispers: Every moment you share together adds another star to your constellation. Keep dreaming, keep loving, keep being your beautiful selves! 💖",
+      "✨ You know what makes Gargee special? Everything. And you know what makes this love special? It's real, it's fierce, and it grows stronger every single day! 🌙💕",
+    ];
+    return warmResponses[Math.floor(Math.random() * warmResponses.length)];
+  };
+
   const send = () => {
     if (!input.trim()) return;
     const userMsg: Msg = { role: "user", content: input.trim() };
     setMessages((prev) => [...prev, userMsg]);
+    const userText = input.trim();
     setInput("");
-    // Simple local response since we don't have the Supabase edge function
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "✨ Lumina here! I'm dreaming up thoughts just for you, sweet dreamer. This feature will be fully magical once connected to the cloud! 🌙💕",
-        },
+        { role: "assistant", content: generateResponse(userText) },
       ]);
-    }, 1000);
+    }, 800);
   };
 
   return (
