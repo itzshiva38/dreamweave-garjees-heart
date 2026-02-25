@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import LuminaOrb from "../components/LuminaOrb";
 import LoadingScreen from "../components/LoadingScreen";
 import MusicControls from "../components/MusicControls";
+import SyncedLyrics from "../components/SyncedLyrics";
 import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 
 const Index = () => (
@@ -35,6 +36,7 @@ const Index = () => (
       </main>
       <LuminaOrb />
       <MusicControls />
+      <SyncedLyrics />
     </div>
   </MusicPlayerProvider>
 );
