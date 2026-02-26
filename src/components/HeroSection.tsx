@@ -1,8 +1,105 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Sparkles, Heart, BookOpen } from "lucide-react";
 import BookReader from "./BookReader";
 import SpecialSongButton from "./SpecialSongButton";
+
+const START_DATE_KEY = "gargee-love-start-date";
+const DEFAULT_START = "2025-12-21";
+const FIRST_MET = "November 2019";
+
+function getDaysSince(dateStr: string): number {
+  const start = new Date(dateStr);
+  const now = new Date();
+  start.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+  return Math.max(0, Math.floor((now.getTime() - start.getTime()) / 86400000));
+}
+
+function isAnniversary(dateStr: string): boolean {
+  const start = new Date(dateStr);
+  const now = new Date();
+  return start.getMonth() === now.getMonth() && start.getDate() === now.getDate() && now.getFullYear() > start.getFullYear();
+}
+
+function DaysCounter() {
+  const stored = localStorage.getItem(START_DATE_KEY) || DEFAULT_START;
+  if (!localStorage.getItem(START_DATE_KEY)) localStorage.setItem(START_DATE_KEY, DEFAULT_START);
+
+  const days = getDaysSince(stored);
+  const anniversary = isAnniversary(stored);
+  const motionVal = useMotionValue(0);
+  const rounded = useTransform(motionVal, (v) => Math.round(v));
+  const [displayVal, setDisplayVal] = useState(0);
+  const didConfetti = useRef(false);
+
+  useEffect(() => {
+    const controls = animate(motionVal, days, { duration: 2, ease: "easeOut" });
+    const unsub = rounded.on("change", (v) => setDisplayVal(v));
+    return () => { controls.stop(); unsub(); };
+  }, [days]);
+
+  useEffect(() => {
+    if (anniversary && !didConfetti.current) {
+      didConfetti.current = true;
+      // Fire confetti hearts
+      const canvas = document.createElement("canvas");
+      canvas.style.cssText = "position:fixed;inset:0;z-index:9999;pointer-events:none";
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext("2d")!;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const hearts: { x: number; y: number; vx: number; vy: number; s: number; o: number; r: number }[] = [];
+      for (let i = 0; i < 60; i++) {
+        hearts.push({
+          x: Math.random() * canvas.width, y: -20 - Math.random() * 200,
+          vx: (Math.random() - 0.5) * 3, vy: 1.5 + Math.random() * 3,
+          s: 10 + Math.random() * 18, o: 1, r: Math.random() * 0.3 - 0.15
+        });
+      }
+      const colors = ["#f472b6", "#c084fc", "#67e8f9", "#fb7185"];
+      let frame = 0;
+      const drawHeart = (cx: number, cy: number, size: number, color: string) => {
+        ctx.save(); ctx.translate(cx, cy); ctx.scale(size / 20, size / 20);
+        ctx.beginPath(); ctx.moveTo(0, -5);
+        ctx.bezierCurveTo(-10, -15, -20, 0, 0, 15);
+        ctx.bezierCurveTo(20, 0, 10, -15, 0, -5);
+        ctx.fillStyle = color; ctx.fill(); ctx.restore();
+      };
+      const loop = () => {
+        frame++;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hearts.forEach((h) => {
+          h.x += h.vx; h.y += h.vy; h.o -= 0.004;
+          if (h.o > 0) drawHeart(h.x, h.y, h.s, colors[Math.floor(Math.random() * colors.length)]);
+        });
+        if (frame < 180) requestAnimationFrame(loop);
+        else canvas.remove();
+      };
+      loop();
+      window.dispatchEvent(new CustomEvent("open-lumina", { detail: "Happy anniversary my love! 💖✨ Another year of our beautiful story together!" }));
+    }
+  }, [anniversary]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 2.5, duration: 0.8 }}
+      className="mb-8"
+    >
+      <div className="text-6xl md:text-8xl font-serif font-bold tabular-nums dreamscape-glow-text">
+        {displayVal}
+      </div>
+      <p className="text-base md:text-lg text-muted-foreground mt-2">
+        days of loving you since 21 December 2025 💕
+      </p>
+      <p className="text-sm text-muted-foreground/70 mt-1">
+        and since we first met in {FIRST_MET} ✨
+      </p>
+    </motion.div>
+  );
+}
 
 export default function HeroSection() {
   const title = "Gargee's Dreamscape";
@@ -58,10 +155,13 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.8, duration: 0.7 }}
-          className="text-lg md:text-xl text-muted-foreground text-glow-sm mb-10"
+          className="text-lg md:text-xl text-muted-foreground text-glow-sm mb-6"
         >
           A world where dreams bloom forever ✨
         </motion.p>
+
+        {/* Days We've Loved Counter */}
+        <DaysCounter />
 
         <motion.div
           initial={{ opacity: 0, y: 15 }}
